@@ -8,6 +8,8 @@ namespace _2zhgyakorlo
 {
     internal class Stock
     {
+        #region oldcode
+        /*
         CompanyName company;
         public CompanyName Company
         { get { return company; } }
@@ -45,6 +47,33 @@ namespace _2zhgyakorlo
             this.highPrice = highPrice;
             this.lowPrice = lowPrice;
             this.volume = volume;
+        }
+        */
+        #endregion
+
+        public CompanyName Company { get; }
+        public DateTime Date { get; }
+
+        public double OpenPrice { get; }
+
+        public double ClosePrice { get; }
+
+        public double HighPrice { get; }
+
+        public double LowPrice { get; }
+
+        public int Volume { get; }
+
+
+        public Stock(CompanyName company, DateTime date, double openPrice, double closePrice, double highPrice, double lowPrice, int volume)
+        {
+            Company = company;
+            Date = date;
+            OpenPrice = openPrice;
+            ClosePrice = closePrice;
+            HighPrice = highPrice;
+            LowPrice = lowPrice;
+            Volume = volume;
         }
 
         public override string ToString()

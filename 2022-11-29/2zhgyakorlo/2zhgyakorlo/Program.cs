@@ -17,8 +17,7 @@ namespace _2zhgyakorlo
 
         static void Main(string[] args)
         {
-            Stock stock = new Stock(CompanyName.AppleInc,DateTime.Today, 0.1,1.1,2.1,0.0,15);
-            Console.WriteLine(stock.ToString());
+            //A kérdések megválaszolása és a tesztelés left as an excercise.
         }
     }
 }
