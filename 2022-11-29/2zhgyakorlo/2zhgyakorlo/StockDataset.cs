@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _2zhgyakorlo
 {
     internal static class StockDataset
     {
+        #region oldcode
+        /*
         public static Stock[] Load(string apple, string alphabet, string meta)
         {
             //$"{Company},{Date.ToShortDateString()},{OpenPrice},{ClosePrice},{HighPrice},{LowPrice},{Volume}";
+            
             int numoflines = 0;
             StringBuilder sb = new StringBuilder();
             StreamReader sr = new StreamReader(apple);
@@ -59,18 +58,49 @@ namespace _2zhgyakorlo
 
                 stocks[i] = new Stock(company, DateTime.Parse(stockdata[1]),
                     double.Parse(stockdata[2]), double.Parse(stockdata[3]), double.Parse(stockdata[4]), double.Parse(stockdata[5]), int.Parse(stockdata[6]));
-
+                
             }
 
             return stocks;
         }
+        */
+        #endregion
+
+        public static Stock[] Load(string apple, string alphabet, string meta)
+        {
+            //$"{Company},{Date.ToShortDateString()},{OpenPrice},{ClosePrice},{HighPrice},{LowPrice},{Volume}";
+            string[] appleLines = File.ReadAllLines(apple);
+            string[] alphabetLines = File.ReadAllLines(alphabet);
+            string[] metaLines = File.ReadAllLines(meta);
+
+            Stock[] stocks = new Stock[appleLines.Length + alphabetLines.Length + metaLines.Length];
+
+            string[] input = new string[appleLines.Length + alphabetLines.Length + metaLines.Length];
+
+            appleLines.CopyTo(input, 0);
+            alphabetLines.CopyTo(input, appleLines.Length);
+            metaLines.CopyTo(input, appleLines.Length + alphabetLines.Length);
+
+            /*
+            Ha lehet LINQ-t használni, akkor:
+            string[] input = appleLines.Concat(alphabetLines).Concat(metaLines).ToArray();
+            */
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                string[] stockdata = input[i].Split(",");
+
+                stocks[i] = new Stock((CompanyName)Enum.Parse(typeof(CompanyName), stockdata[0]), DateTime.Parse(stockdata[1]),
+                    double.Parse(stockdata[2]), double.Parse(stockdata[3]), double.Parse(stockdata[4]), double.Parse(stockdata[5]), int.Parse(stockdata[6]));
+            }
+            return stocks;
+        }
 
 
-
-        public static void Save(string filename, Stock[] dataset) 
+        public static void Save(string filename, Stock[] dataset)
         {
             StreamWriter sw = new StreamWriter(filename);
-            for (int i = 0; i< dataset.Length; i++)
+            for (int i = 0; i < dataset.Length; i++)
             {
                 sw.WriteLine(dataset[i].ToString());
             }
